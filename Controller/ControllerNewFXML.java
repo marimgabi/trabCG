@@ -36,6 +36,7 @@ public class ControllerNewFXML implements Initializable {
         pontosX.setText("0");
         pontosZ.setText("0");
         espacoPontos.setText("0");
+        espacoPontosZ.setText("0");
     }
 
     public void setParentController(ControllerFXML parentController) {
