@@ -1,20 +1,20 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import javafx.scene.canvas.Canvas?>
+<?import Model.ResizableCanvas?>
 <?import javafx.scene.control.Menu?>
 <?import javafx.scene.control.MenuBar?>
 <?import javafx.scene.control.MenuItem?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.Pane?>
 
-<?import Model.ResizableCanvas?>
 <AnchorPane prefHeight="650.0" prefWidth="1250.0" style="-fx-background-color: #ddd;" xmlns="http://javafx.com/javafx/8.0.172-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Controller.ControllerFXML">
+
    <children>
        <MenuBar id="menuBar" fx:id="menuBar" cache="true" cacheHint="SCALE" maxWidth="1.7976931348623157E308" prefWidth="1250.0" style="-fx-background-color: #ccc;" styleClass="menuBar" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
            <menus>
                <Menu mnemonicParsing="false" styleClass="menuBar" text="Arquivo">
                    <items>
-                       <MenuItem mnemonicParsing="false" text="New" />
+                       <MenuItem mnemonicParsing="false" onAction="#abreNew" text="New" fx:id="novo"/>
                        <MenuItem mnemonicParsing="false" text="Open" />
                        <MenuItem mnemonicParsing="false" text="Save" />
                    </items>
