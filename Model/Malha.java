@@ -5,11 +5,13 @@ import java.util.ArrayList;
 public class Malha {
     ArrayList<Poligono> faces;
     ArrayList<Aresta> arestas;
+    ArrayList<Vertice> vertices;
     Vertice centro;
 
     public Malha() {
         faces = new ArrayList<>();
         arestas = new ArrayList<>();
+        vertices = new ArrayList<>();
         centro = new Vertice();
     }
 
@@ -35,5 +37,21 @@ public class Malha {
 
     public void setCentro(Vertice centro) {
         this.centro = centro;
+    }
+
+    public ArrayList<Vertice> getVertices() {
+        return vertices;
+    }
+
+    public void setVertices(ArrayList<Vertice> vertices) {
+        this.vertices = vertices;
+    }
+
+    public void addVertice(Vertice vertice){
+        vertices.add(vertice);
+    }
+
+    public void addAresta(Aresta aresta){
+        arestas.add(aresta);
     }
 }
