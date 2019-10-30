@@ -60,6 +60,7 @@ public class ControllerFXML implements Initializable {
 
     //Cria uma nova malha
     public void novaMalha(int pontosX, int pontosZ, int espaco, int espaco1){
+        //controllerMalha.criaMalha(pontosX,pontosZ,espaco,espaco1);
         controllerMalha.criaMalha(pontosX,pontosZ,espaco,espaco1);
     }
 

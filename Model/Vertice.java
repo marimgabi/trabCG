@@ -47,4 +47,16 @@ public class Vertice implements Serializable {
     public void setZ(double z) {
         this.z = z;
     }
+
+    public boolean equals(Object o) {
+        if(o instanceof Vertice){
+            Vertice v = (Vertice) o;
+            return((v.getX()==this.x)&&(v.getY()==this.y)&&(v.getZ()==this.z));
+        }else{
+            return false;
+        }
+
+
+    }
+
 }

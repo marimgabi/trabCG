@@ -7,12 +7,21 @@ public class Malha {
     ArrayList<Aresta> arestas;
     ArrayList<Vertice> vertices;
     Vertice centro;
+    Vertice verticesMatrix[][];
 
     public Malha() {
         faces = new ArrayList<>();
         arestas = new ArrayList<>();
         vertices = new ArrayList<>();
         centro = new Vertice();
+    }
+
+    public Malha(int pontosX, int pontosZ) {
+        faces = new ArrayList<>();
+        arestas = new ArrayList<>();
+        vertices = new ArrayList<>();
+        centro = new Vertice();
+        verticesMatrix = new Vertice[pontosX][pontosZ];
     }
 
     public ArrayList<Poligono> getFaces() {
@@ -53,5 +62,13 @@ public class Malha {
 
     public void addAresta(Aresta aresta){
         arestas.add(aresta);
+    }
+
+    public Vertice[][] getVerticesMatrix() {
+        return verticesMatrix;
+    }
+
+    public void setVerticesMatrix(Vertice[][] vertices2) {
+        this.verticesMatrix = vertices2;
     }
 }

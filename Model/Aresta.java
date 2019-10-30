@@ -3,10 +3,10 @@ package Model;
 import java.io.Serializable;
 
 public class Aresta implements Serializable {
-    public Vertice ini;
-    public Vertice fim;
-    public Poligono pai1;
-    public Poligono pai2;
+    private Vertice ini;
+    private Vertice fim;
+    private Poligono pai1;
+    private Poligono pai2;
 
     public Aresta() {
     }
@@ -46,5 +46,9 @@ public class Aresta implements Serializable {
 
     public void setPai2(Poligono pai2) {
         this.pai2 = pai2;
+    }
+
+    public boolean alreadyExist(Vertice a, Vertice b){
+        return(((a==ini)&&(b==fim))||((a==fim)&&(b==ini)));
     }
 }
