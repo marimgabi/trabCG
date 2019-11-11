@@ -10,11 +10,15 @@ import javafx.scene.Scene;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.control.MenuItem;
 import javafx.scene.layout.BorderPane;
+import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 
-import java.io.IOException;
+import javax.swing.*;
+import java.io.*;
 import java.net.URL;
 import java.util.ResourceBundle;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 public class ControllerFXML implements Initializable {
 
@@ -26,11 +30,18 @@ public class ControllerFXML implements Initializable {
     private MenuItem novo;
 
     @FXML
+    private MenuItem save;
+
+    @FXML
+    private MenuItem open;
+
+    @FXML
     private ControllerNewFXML childController;
 
     Stage stage = new Stage();
 
     ControllerMalha controllerMalha= new ControllerMalha();
+    boolean isFileOpen;
 
 
     //Método que faz tds as inicializações necessárias no início da execução do aplicativo
@@ -39,7 +50,7 @@ public class ControllerFXML implements Initializable {
         canvas1.widthProperty().addListener(evt -> drawall());
         canvas1.heightProperty().addListener(evt -> drawall());
         gc1= canvas1.getGraphicsContext2D();
-
+        isFileOpen=false;
     }
 
     public void drawall(){
@@ -62,11 +73,55 @@ public class ControllerFXML implements Initializable {
     public void novaMalha(int pontosX, int pontosZ, int espaco, int espaco1){
         //controllerMalha.criaMalha(pontosX,pontosZ,espaco,espaco1);
         controllerMalha.criaMalha(pontosX,pontosZ,espaco,espaco1);
+        isFileOpen=true;
     }
 
     //Fecha a janela da nova malha
     public void fechaNew(){
         stage.close();
+    }
+
+    public void salvaHeightmap() throws FileNotFoundException {
+        if(isFileOpen){
+            FileChooser chooser = new FileChooser();
+            chooser.setTitle("Salvar Heightmap");
+            FileChooser.ExtensionFilter extFilter = new FileChooser.ExtensionFilter("ADAIR files (*.adair)", "*.adair");
+//        FileChooser.ExtensionFilter extFilter = new FileChooser.ExtensionFilter("TXT files (*.txt)", "*.txt");
+            chooser.getExtensionFilters().add(extFilter);
+            File file = chooser.showSaveDialog(stage);
+            if(file!=null){
+                PrintWriter writer;
+                writer = new PrintWriter(file);
+                writer.println(controllerMalha.criaHeightmap());
+                writer.close();
+            }
+        }else{
+            JOptionPane.showMessageDialog(null,"Não há arquivo aberto!");
+        }
+    }
+
+    public void carregaHeightmap() throws IOException {
+        controllerMalha.malha=null;
+        controllerMalha.malhaVisualizacao=null;
+        FileChooser chooser = new FileChooser();
+        chooser.setTitle("Abrir Heightmap");
+        FileChooser.ExtensionFilter extFilter = new FileChooser.ExtensionFilter("ADAIR files (*.adair)", "*.adair");
+        chooser.getExtensionFilters().add(extFilter);
+        File file = chooser.showOpenDialog(stage);
+        //BufferedReader arq = new BufferedReader(file);
+        if(file!=null){
+            StringBuilder stringBuffer = new StringBuilder();
+            BufferedReader bufferedReader = null;
+
+                bufferedReader = new BufferedReader(new FileReader(file));
+
+                String text;
+                while ((text = bufferedReader.readLine()) != null) {
+                    stringBuffer.append(text+";");
+                }
+                controllerMalha.leHeightmap(stringBuffer.toString());
+                isFileOpen=true;
+        }
     }
 
 

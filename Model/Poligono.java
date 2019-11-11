@@ -7,6 +7,8 @@ public class Poligono {
     ArrayList<Vertice> vertices;
 
     public Poligono() {
+        arestas= new ArrayList<>();
+        vertices= new ArrayList<>();
     }
 
     public ArrayList<Aresta> getArestas() {

@@ -10,10 +10,15 @@ import java.util.Random;
 public class ControllerMalha {
     Malha malha;
     Malha malhaVisualizacao;
+    int numAmostraX;
+    int numAmostraZ;
+    int espacoX;
+    int espacoZ;
 
 
     public void criaMalha(int pontosX, int pontosZ, int espaco, int espaco1){
-
+        numAmostraX=pontosX;
+        numAmostraZ=pontosZ;
         malha = new Malha(pontosX,pontosZ);
         Random gerador = new Random();
         int deslocamento,deslocamento2;
@@ -44,10 +49,16 @@ public class ControllerMalha {
 //            }
 //        }
 
+        criaArestas();
+
+    }
+
+    public void criaArestas(){
+
         //Cria arestas
 
-        for(int i=0;i<pontosX;i++){
-            for(int j=0;j<pontosZ;j++){
+        for(int i=0;i<numAmostraX;i++){
+            for(int j=0;j<numAmostraZ;j++){
                 boolean achou;
                 Aresta a,b,c;
                 a=new Aresta();
@@ -55,10 +66,10 @@ public class ControllerMalha {
                 c=new Aresta();
 
                 //Polígono 1
-                if((i<pontosX-1)&&(j<pontosZ-1)){
+                if((i<numAmostraX-1)&&(j<numAmostraZ-1)){
                     //aresta (i,j)->(i+1,j)
                     achou=false;
-                    if((i+1)<pontosX){
+                    if((i+1)<numAmostraX){
                         if(malha.getArestas().size()!=0){
                             for(Aresta aux:malha.getArestas()){
                                 if(aux.alreadyExist(malha.getVerticesMatrix()[i][j],malha.getVerticesMatrix()[i+1][j])){
@@ -77,7 +88,7 @@ public class ControllerMalha {
 
                     //aresta (i,j)->(i,j+1)
                     achou=false;
-                    if((j+1)<pontosZ){
+                    if((j+1)<numAmostraZ){
                         if(malha.getArestas().size()!=0){
                             for(Aresta aux:malha.getArestas()){
                                 if(aux.alreadyExist(malha.getVerticesMatrix()[i][j],malha.getVerticesMatrix()[i][j+1])){
@@ -96,7 +107,7 @@ public class ControllerMalha {
 
                     //aresta (i+1,j)->(i,j+1)
                     achou=false;
-                    if(((j+1)<pontosZ)&&((i+1)<pontosX)){
+                    if(((j+1)<numAmostraZ)&&((i+1)<numAmostraX)){
                         if(malha.getArestas().size()!=0){
                             for(Aresta aux:malha.getArestas()){
                                 if(aux.alreadyExist(malha.getVerticesMatrix()[i+1][j],malha.getVerticesMatrix()[i][j+1])){
@@ -107,7 +118,7 @@ public class ControllerMalha {
                             }
                         }
                         if(achou==false){
-                            c=new Aresta(malha.getVerticesMatrix()[i][j],malha.getVerticesMatrix()[i][j+1]);
+                            c=new Aresta(malha.getVerticesMatrix()[i+1][j],malha.getVerticesMatrix()[i][j+1]);
                             malha.getArestas().add(c);
                         }
 
@@ -121,10 +132,11 @@ public class ControllerMalha {
                     poligono1.getVertices().add(malha.getVerticesMatrix()[i+1][j]);
                     poligono1.getVertices().add(malha.getVerticesMatrix()[i][j+1]);
                     malha.getFaces().add(poligono1);
+//                    System.out.println(malha.getFaces().size()+" poligono 1");
                 }
 
                 //Polígono 2
-                if((i>0)&&(j<pontosZ-1)){
+                if((i>0)&&(j<numAmostraZ-1)){
                     //aresta (i,j)->(i-1,j+1)
                     achou=false;
 
@@ -185,38 +197,66 @@ public class ControllerMalha {
                     poligono2.getVertices().add(malha.getVerticesMatrix()[i-1][j+1]);
                     poligono2.getVertices().add(malha.getVerticesMatrix()[i][j+1]);
                     malha.getFaces().add(poligono2);
+//                    System.out.println(malha.getFaces().size()+" poligono 2");
                 }
 
             }
         }
 
-        for(Poligono p:malha.getFaces()){
-            System.out.println("-----");
-            System.out.println("("+p.getArestas().get(0).getIni().getX()+";"+p.getArestas().get(0).getIni().getZ()+")  ----  ("+p.getArestas().get(0).getFim().getX()+";"+p.getArestas().get(0).getFim().getZ()+")");
-            System.out.println("("+p.getArestas().get(1).getIni().getX()+";"+p.getArestas().get(1).getIni().getZ()+")  ----  ("+p.getArestas().get(1).getFim().getX()+";"+p.getArestas().get(1).getFim().getZ()+")");
-            System.out.println("("+p.getArestas().get(2).getIni().getX()+";"+p.getArestas().get(2).getIni().getZ()+")  ----  ("+p.getArestas().get(2).getFim().getX()+";"+p.getArestas().get(2).getFim().getZ()+")");
+//        int cont=0;
+//        for(Poligono p:malha.getFaces()){
+//            cont++;
+//            System.out.println(cont+") -----");
+//            System.out.println("("+p.getArestas().get(0).getIni().getX()+";"+p.getArestas().get(0).getIni().getZ()+")  ----  ("+p.getArestas().get(0).getFim().getX()+";"+p.getArestas().get(0).getFim().getZ()+")");
+//            System.out.println("("+p.getArestas().get(1).getIni().getX()+";"+p.getArestas().get(1).getIni().getZ()+")  ----  ("+p.getArestas().get(1).getFim().getX()+";"+p.getArestas().get(1).getFim().getZ()+")");
+//            System.out.println("("+p.getArestas().get(2).getIni().getX()+";"+p.getArestas().get(2).getIni().getZ()+")  ----  ("+p.getArestas().get(2).getFim().getX()+";"+p.getArestas().get(2).getFim().getZ()+")");
+//
+//        }
+
+
+    }
+
+    public String criaHeightmap(){
+        String heightmap;
+        heightmap=String.valueOf(malha.getVerticesMatrix()[0][0].getX())+"\n"+String.valueOf(malha.getVerticesMatrix()[numAmostraX-1][0].getX()+"\n"+String.valueOf(numAmostraX)+"\n");
+        heightmap=heightmap+String.valueOf(malha.getVerticesMatrix()[0][0].getZ())+"\n"+String.valueOf(malha.getVerticesMatrix()[numAmostraZ-1][0].getZ()+"\n"+String.valueOf(numAmostraZ)+"\n");
+        for(int i=0;i<numAmostraX;i++){
+            for(int j=0;j<numAmostraZ;j++){
+                heightmap=heightmap+String.valueOf(malha.getVerticesMatrix()[i][j].getY()+"\n");
+            }
         }
 
-        //Cria arestas que não cruzam o eixo Z
-//        for(int i=0;i<malha.getVertices().size();i++){
-//            if((i%pontosZ)<(pontosZ-1)){
-//                Aresta nova = new Aresta(malha.getVertices().get(i),malha.getVertices().get(i+1));
-//                malha.addAresta(nova);
-//            }
-//        }
+        return heightmap;
+    }
 
-//        for(Aresta a:malha.getArestas()){
-//            System.out.println("---\nInicio: \n"+a.getIni().getX()+"   "+a.getIni().getZ()+"\n");
-//            System.out.println("Fim: "+a.getFim().getX()+"   "+a.getFim().getZ()+"\n");
-//        }
+    public void leHeightmap(String heightmap){
+        String[] values = heightmap.split(";");
+        double xmin, xmax, zmin, zmax;
+        xmin=Double.valueOf(values[0]);
+        xmax=Double.valueOf(values[1]);
+        numAmostraX=Integer.valueOf(values[2]);
+        zmin=Double.valueOf(values[3]);
+        zmax=Double.valueOf(values[4]);
+        numAmostraZ=Integer.valueOf(values[5]);
+        int cont=6;
+        espacoX= (int) ((xmax-xmin)/(numAmostraX-1));
+        espacoZ= (int) ((zmax-zmin)/(numAmostraZ-1));
+        malha= new Malha(numAmostraX,numAmostraZ);
+        //malhaVisualizacao = new Malha();
 
-        //Cria arestas que não cruzam o eixo X
-//        for(int i=0;i<malha.getVertices().size();i++){
-//            if((i+pontosZ)<malha.getVertices().size()){
-//                Aresta nova =new Aresta(malha.getVertices().get(i),malha.getVertices().get(i+pontosZ));
-//                malha.addAresta(nova);
-//            }
-//        }
+        for(int i=0;i<numAmostraX;i++){
+            for(int j=0;j<numAmostraZ;j++){
+                Vertice aux = new Vertice(xmin+(espacoX*i),Double.valueOf(values[cont]),zmin+(espacoZ*i));
+                malha.getVerticesMatrix()[i][j]=aux;
+                cont++;
+            }
+        }
+
+        criaArestas();
+
+    }
+
+    public void suavizaAlturas(){
 
     }
 

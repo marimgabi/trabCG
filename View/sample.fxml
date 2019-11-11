@@ -14,9 +14,9 @@
            <menus>
                <Menu mnemonicParsing="false" styleClass="menuBar" text="Arquivo">
                    <items>
-                       <MenuItem mnemonicParsing="false" onAction="#abreNew" text="New" fx:id="novo"/>
-                       <MenuItem mnemonicParsing="false" text="Open" />
-                       <MenuItem mnemonicParsing="false" text="Save" />
+                       <MenuItem fx:id="novo" mnemonicParsing="false" onAction="#abreNew" text="New" />
+                       <MenuItem fx:id="open" mnemonicParsing="false" onAction="#carregaHeightmap" text="Open" />
+                       <MenuItem fx:id="save" mnemonicParsing="false" onAction="#salvaHeightmap" text="Save" />
                    </items>
                </Menu>
            </menus>
