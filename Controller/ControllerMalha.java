@@ -257,7 +257,57 @@ public class ControllerMalha {
     }
 
     public void suavizaAlturas(){
+        for(int k=0;k<numAmostraX;k++){
+            for(int m=0;m<numAmostraZ;m++){
+                int cont=0;
+                double media=0;
+                for(int i=k-1;i<=k+1;i++){
+                    for(int j=m-1;j<=m+1;j++){
+                         if(((i==k-1)&&(i>=0))||(i==k)||((i==k+1)&&(i<numAmostraX))){
+                             if(((j==m-1)&&(j>=0))||(j==m)||((j==m+1)&&(j<numAmostraZ))){
+                                media+=malha.getVerticesMatrix()[i][j].getY();
+                                cont++;
+                             }
+                         }
+                    }
+                }
 
+                media/=cont;
+                malha.getVerticesMatrix()[k][m].setY(media);
+            }
+        }
+    }
+
+    public void multiplicaMatriz(double matriz1[][], double matriz2[][], double resultado[][]){
+        //descobrir as dimensões das matrizes
+        int linhas1, colunas1, linhas2, colunas2;
+            linhas1 = matriz1.length;
+            colunas1 = matriz1[0].length;
+
+            linhas2 = matriz2.length;
+            colunas2 = matriz2[0].length;
+
+        //O tamanho da matriz resultado é r[linhas1][colunas2]
+
+        for(int i=0;i<linhas1;i++){
+            for(int j=0;j<colunas2;j++){
+                resultado[i][j] =retornaValorProdutoMatriz(matriz1,matriz2,i,j);
+            }
+        }
+
+
+    }
+
+    public int retornaValorProdutoMatriz(double m1[][],double m2[][], int linha, int coluna){
+
+        int soma=0;
+
+        for(int i=0;i<m1.length;i++){
+            soma += m1[linha][i]*m2[i][coluna];
+        }
+
+
+        return soma;
     }
 
 }

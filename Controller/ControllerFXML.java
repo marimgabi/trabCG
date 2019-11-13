@@ -8,6 +8,7 @@ import javafx.fxml.Initializable;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.canvas.GraphicsContext;
+import javafx.scene.control.Button;
 import javafx.scene.control.MenuItem;
 import javafx.scene.layout.BorderPane;
 import javafx.stage.FileChooser;
@@ -37,6 +38,9 @@ public class ControllerFXML implements Initializable {
 
     @FXML
     private ControllerNewFXML childController;
+
+    @FXML
+    private Button suaviza;
 
     Stage stage = new Stage();
 
@@ -124,5 +128,13 @@ public class ControllerFXML implements Initializable {
         }
     }
 
+
+    public void suavizaMalha(){
+        if(isFileOpen){
+            controllerMalha.suavizaAlturas();
+        }else{
+            JOptionPane.showMessageDialog(null,"Não há arquivo aberto!");
+        }
+    }
 
 }
