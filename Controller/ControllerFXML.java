@@ -1,5 +1,6 @@
 package Controller;
 
+import Model.Aresta;
 import Model.ResizableCanvas;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -10,7 +11,9 @@ import javafx.scene.Scene;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.control.Button;
 import javafx.scene.control.MenuItem;
+import javafx.scene.control.TextField;
 import javafx.scene.layout.BorderPane;
+import javafx.scene.paint.Color;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 
@@ -22,6 +25,8 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 public class ControllerFXML implements Initializable {
+
+    Parent root;
 
     @FXML
     private ResizableCanvas canvas1;
@@ -42,9 +47,27 @@ public class ControllerFXML implements Initializable {
     @FXML
     private Button suaviza;
 
+    @FXML
+    private TextField vrpx;
+
+    @FXML
+    private TextField vrpy;
+
+    @FXML
+    private TextField vrpz;
+
+    @FXML
+    private TextField px;
+
+    @FXML
+    private TextField py;
+
+    @FXML
+    private TextField pz;
+
     Stage stage = new Stage();
 
-    ControllerMalha controllerMalha= new ControllerMalha();
+    ControllerMalha controllerMalha;
     boolean isFileOpen;
 
 
@@ -54,11 +77,24 @@ public class ControllerFXML implements Initializable {
         canvas1.widthProperty().addListener(evt -> drawall());
         canvas1.heightProperty().addListener(evt -> drawall());
         gc1= canvas1.getGraphicsContext2D();
+        controllerMalha= new ControllerMalha(gc1);
         isFileOpen=false;
+        vrpx.setText("0");
+        vrpy.setText("0");
+        vrpz.setText("0");
+        px.setText("0");
+        py.setText("0");
+        pz.setText("0");
+
+
     }
 
-    public void drawall(){
+//    public ControllerFXML(Parent root) {
+//        this.root = root;
+//    }
 
+    public void drawall(){
+        drawWireframe();
     }
 
     //Abre janela para gerar nova malha
@@ -78,6 +114,8 @@ public class ControllerFXML implements Initializable {
         //controllerMalha.criaMalha(pontosX,pontosZ,espaco,espaco1);
         controllerMalha.criaMalha(pontosX,pontosZ,espaco,espaco1);
         isFileOpen=true;
+        atualizaParametros();
+        drawWireframe();
     }
 
     //Fecha a janela da nova malha
@@ -126,15 +164,68 @@ public class ControllerFXML implements Initializable {
                 controllerMalha.leHeightmap(stringBuffer.toString());
                 isFileOpen=true;
         }
+        atualizaParametros();
+        drawall();
     }
 
 
     public void suavizaMalha(){
         if(isFileOpen){
             controllerMalha.suavizaAlturas();
+            drawall();
         }else{
             JOptionPane.showMessageDialog(null,"Não há arquivo aberto!");
         }
     }
+
+    public void changevrp(){
+        if(isFileOpen){
+            controllerMalha.setVrp(Double.valueOf(vrpx.getText()),Double.valueOf(vrpy.getText()),Double.valueOf(vrpz.getText()));
+            vrpx.setText(String.valueOf(controllerMalha.vrp.getX()));
+            vrpy.setText(String.valueOf(controllerMalha.vrp.getY()));
+            vrpz.setText(String.valueOf(controllerMalha.vrp.getZ()));
+            //gc1.setStroke(Color.RED);
+            drawall();
+        }else{
+            JOptionPane.showMessageDialog(null,"Não há arquivo aberto!");
+        }
+    }
+
+    public void changep(){
+        if(isFileOpen){
+            controllerMalha.setP(Double.valueOf(px.getText()),Double.valueOf(py.getText()),Double.valueOf(pz.getText()));
+            px.setText(String.valueOf(controllerMalha.p.getX()));
+            py.setText(String.valueOf(controllerMalha.p.getY()));
+            pz.setText(String.valueOf(controllerMalha.p.getZ()));
+            //gc1.setStroke(Color.BLUE);
+            drawall();
+        }else{
+            JOptionPane.showMessageDialog(null,"Não há arquivo aberto!");
+        }
+    }
+
+    public void atualizaParametros(){
+        vrpx.setText(String.valueOf(controllerMalha.vrp.getX()));
+        vrpy.setText(String.valueOf(controllerMalha.vrp.getY()));
+        vrpz.setText(String.valueOf(controllerMalha.vrp.getZ()));
+
+        px.setText(String.valueOf(controllerMalha.p.getX()));
+        py.setText(String.valueOf(controllerMalha.p.getY()));
+        pz.setText(String.valueOf(controllerMalha.p.getZ()));
+    }
+
+    public void drawWireframe(){
+        gc1.clearRect(0, 0, canvas1.getWidth(), canvas1.getHeight());
+        //gc1.setStroke(Color.BLACK);
+        if(isFileOpen){
+            controllerMalha.sru2srtParallel();
+            //gc1.strokeLine(0,0,gc1.getCanvas().getWidth(),gc1.getCanvas().getHeight());
+            for(Aresta a : controllerMalha.malhaVisualizacao.getArestas()){
+                gc1.strokeLine(a.getIni().getX(),a.getIni().getY(),a.getFim().getX(),a.getFim().getY());
+            }
+        }
+    }
+
+
 
 }
